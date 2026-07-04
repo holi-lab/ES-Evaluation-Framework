@@ -1,0 +1,27 @@
+.env
+*.pyc
+__pycache__/
+
+# Local outputs
+logs/
+runs/
+results/
+outputs/
+checkpoints/
+wandb/
+
+# Large/model artifacts
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.faiss
+
+# Data dumps
+*.jsonl
+*.csv
+*.parquet
+*.pkl
+!examples/*.jsonl
+!examples/*.csv
