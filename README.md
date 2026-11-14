@@ -12,19 +12,19 @@ Former title: **Emotional Support Evaluation Framework via Controllable and Dive
 
 This work introduces a controllable help-seeker simulator for stress-testing emotional support models. The simulator is conditioned on multi-dimensional seeker profiles, including psychological and linguistic features, so that supporter models can be evaluated against diverse help-seeking behaviors rather than only cooperative or homogeneous users.
 
-The core model uses supervised fine-tuning as a backbone and a feature-conditioned MoE/MoLA-style routing mechanism to specialize behavior across different seeker profiles. This repository includes code for training the seeker simulator, preparing MoE/MoLA inputs, and generating multi-turn emotional-support dialogues.
+The core model uses supervised fine-tuning as a backbone and a feature-conditioned Mixture-of-Experts (MoE) routing mechanism to specialize behavior across different seeker profiles. This repository includes code for training the seeker simulator, preparing MoE inputs, and generating multi-turn emotional-support dialogues.
 
 ## Repository Structure
 
 - `src/training/`: SFT backbone training and dataset utility scripts.
-- `src/moe/`: ordinal seeker-feature vector construction, SFT merge, and MoE/MoLA training scripts.
+- `src/moe/`: ordinal seeker-feature vector construction, SFT merge, and MoE training scripts.
 - `src/simulation/`: multi-turn dialogue generation scripts for GPT and SFT supporter settings.
-- `src/annotation/`: prompt-based seeker-feature annotation tools and reusable labeling prompts.
+- `src/annotation/`: psychological feature prompts and linguistic rule-based feature extraction tools.
 
 ## Main Components
 
 - SFT seeker simulator training
-- MoE/MoLA training with ordinal feature-vector-conditioned routing
+- MoE-based training with ordinal feature-vector-conditioned behavioral routing
 - Dialogue generation between seeker simulators and supporter models
 - Prompt-based annotation of seeker profiles from dialogue data
 - Utility scripts for data checks and model preparation
@@ -55,9 +55,19 @@ python src/annotation/tag_features.py \
   --embed-in-system
 ```
 
-The command preserves each record, adds normalized `seeker_features` and pair-level annotations, and—with `--embed-in-system`—writes the `<seeker_features>` block consumed by `src/moe/make_mola_data_ordinal.py`. The reusable templates are under `src/annotation/prompts/`.
+For a different dataset, users may set thresholds derived from their training split without changing code. The defaults are `15 30 60 100` average seeker tokens for the five verbosity levels and `6 9` total turns for medium/long dialogues:
 
-The utterance-style template intentionally uses the four labels supported by the current MoLA vectorizer: `plain`, `upset`, `verbose`, and `pleasing`.
+```bash
+python src/annotation/tag_features.py ... \
+  --verbosity-bins 12 24 48 96 \
+  --turn-bins 5 8
+```
+
+The command preserves each record, adds a complete nine-feature `seeker_features` profile and pair-level annotations, and—with `--embed-in-system`—writes the `<seeker_features>` block consumed by `src/moe/make_mola_data_ordinal.py`. Pair-level client reactions are aggregated into positive, neutral, and negative `seeker_reaction` proportions. LLM prompt templates are under `src/annotation/psychological/prompts/`; rule-based verbosity, turn-count, and profanity extraction is in `src/annotation/linguistic/`.
+
+The utterance-style template intentionally uses the four labels supported by the current MoE feature vectorizer: `plain`, `upset`, `verbose`, and `pleasing`.
+
+If you use or adapt the feature-labeling prompts, please cite our paper.
 
 ## Citation
 
