@@ -1,0 +1,67 @@
+You are an expert evaluator. You will be provided with the client's main problem for context, followed by a multi-turn dialogue between a counselor and that client.
+
+Your task is to evaluate the **overall intensity and consistency of 'resistance'** exhibited by the client across the entire dialogue.
+
+**[!!] Important Criterion:** Your goal is to measure the *behavior* of resistance (e.g., refuting, pushing back, or passively shutting down), **not to judge whether that behavior was justified.** (For example, even if the counselor's advice was bad, a client's "That's easy for you to say" is still counted as resistance).
+
+The `low` category serves as the baseline, representing any case that is *not* clearly `high` or `medium`.
+
+---
+
+* Instructions
+
+1.  Read the **[Client's Main Problem]** to understand the situation. This is context only — do not use it as evidence for your evaluation.
+2.  Read the entire **[Dialogue]** carefully.
+3.  Base your evaluation *only* on the **client's utterances** within the **[Dialogue]** (ignore the counselor's messages).
+4.  Determine which **single level** (high, medium, or low) best represents the client's overall behavior of resistance, based on the definitions below.
+5.  Refer to the **[Edge Case Rules]** for clarification.
+6.  Output *only* in the specified format.
+
+---
+
+* Resistance Level Definitions
+
+* **high:**
+    * **Definition:** Resistance is **frequent and pervasive**. It appears across most topics and in response to most major interventions. The client rarely returns to a cooperative stance and resists even minor stimuli. A defensive or refuting attitude persists throughout the dialogue.
+    * **Examples:** (To empathy) → "It's not that simple." (To a question) → "Why do you keep asking that?" (To a suggestion) → "I tried that, it didn't work."
+
+* **medium:**
+    * **Definition:** Resistance is clearly present, but **'situational'**. It is triggered *only* by specific topics (e.g., emotions, family, demands for change) or by the counselor's direct suggestions (e.g., "What if you try this?"). The client alternates between periods of cooperation and resistance.
+    * **Example:** The client discusses work cooperatively, but when the counselor asks, "Is this related to your family?" the client becomes defensive ("That's irrelevant") or avoidant.
+
+* **low:**
+    * **Definition:** This category includes **all cases** that are not clearly and persistently classified as `high` or `medium`. Resistance is either **absent (fully cooperative)** or, if observed, is **light and momentary**. The dialogue is, on the whole, cooperative.
+    * **Judgment Basis:** If, after reading the dialogue, the impression "This client is resistant" is not as strong as the criteria for `high` or `medium`, you must choose `low`.
+    * **Examples:** (Full Cooperation) The client answers questions faithfully and accepts suggestions. (Mild Resistance) Counselor: "It sounds like you're angry." → Client: "Not angry... just a bit frustrated." (This is a minor correction that occurs 1-2 times, but the dialogue continues smoothly).
+
+---
+
+* Edge Case Rules
+
+1.  **How do you tag a fully cooperative dialogue?**
+    * Tag it as **low**. In this system, `low` is the baseline category that includes "fully cooperative" and "not high or medium resistance."
+
+2.  **Is silence or passivity (e.g., "I don't know") a form of resistance?**
+    * **Yes.** Persistently using passive non-cooperation (e.g., "IDK," "...", monosyllabic answers) in response to the counselor's interventions is a form of resistance. If this behavior is pervasive and consistent, it can be **high**. If it only appears for specific topics, it can be **medium**.
+
+3.  **What if the client has one big explosion but is cooperative otherwise?**
+    * This is likely **medium**. The resistance was "situational" (the explosion) but not "pervasive" (which would be `high`). If the "explosion" was very mild and instantly resolved, it could be `low`, but a "big explosion" better fits the `medium` criterion (clearly present but situational).
+
+4.  **What if the counselor was rude or gave bad advice, and the client refuted them?**
+    * **It still counts as resistance.** Regardless of the reason, if the client actively pushed back (e.g., "What do you know?"), ignored, or refuted the counselor, it is classified as resistance. This tagging measures the client's *behavior*, not the *justification* for it.
+    * (e.g., If the counselor says "Just break up" and the client says "That's easy for you to say," this is evidence for `medium` or `high` resistance.)
+
+5.  **What about very short dialogues (4-5 turns)?**
+    * The same standard applies. If the client is cooperative for all 4-5 turns ("Yes, that's right," "Thank you"), it is **low**. If the client refutes for all 4-5 turns ("That's not right," "Stop it"), it is **high**.
+
+---
+
+**[Client's Main Problem]**
+{op_summary}
+
+**[Dialogue]**
+{dialogue}
+
+**[Output Format]
+Output only one label (no explanation):
+[high / medium / low]

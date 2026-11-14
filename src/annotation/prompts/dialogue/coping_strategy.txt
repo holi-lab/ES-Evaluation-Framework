@@ -1,0 +1,67 @@
+You are an expert evaluator. You will be provided with the client's main problem for context, followed by a multi-turn dialogue between a counselor and that client.
+
+Your task is to evaluate the **client's main coping strategy**. This is the **single most dominant strategy** the client uses **across the entire dialogue** to manage their stress, based *only* on the client's own utterances.
+
+---
+
+* Instructions
+
+1.  Read the **[Client's Main Problem]** to understand the situation. This is context only — do not use it as evidence for your evaluation.
+2.  Read the entire **[Dialogue]** carefully.
+3.  Base your evaluation *only* on the **client's utterances** within the **[Dialogue]** (ignore the counselor's messages).
+4.  Determine which **single coping strategy** (from the definitions below) best represents the client's most dominant and consistent approach across the whole conversation.
+5.  Refer to the **[Edge Case Rules]** if the dialogue seems to mix strategies.
+6.  Output *only* in the specified format.
+
+---
+
+* Coping Strategy Label Definitions
+
+* **problem_focused:**
+    * **Definition:** The client plans, executes, or deliberates on concrete actions to solve the source of the stress or change the situation. **This includes cognitive actions like analyzing constraints, making a plan (e.g., "we're just going to wait"), or evaluating/using resources (e.g., "I have a trauma therapist," "I'm on a closed forum").**
+    * **Examples:** "I want to fix this somehow, please help me make a plan.", "I've started working a part-time job.", "I thought about breaking my savings... but that's not feasible...", **"I'm going to talk to my therapist about these feelings."**
+
+* **emotion_processing:**
+    * **Definition:** The client focuses on expressing, receiving empathy for, and processing their current emotions, rather than on solving the problem itself. **This often manifests as venting, confessing painful feelings (e.g., "I have a lot of guilt"), or using a question as a trigger to narrate a long, detailed emotional or traumatic story to unburden oneself.**
+    * **Examples:** "I just wanted to talk because I'm so upset.", "I don't know why I'm so anxious.", "I'm angry, and I just wanted to vent...", **"I haven't coped well. I ended up delaying the pain... I am just starting to pick up the pieces now."**
+
+* **avoidant:**
+    * **Definition:** The client intentionally avoids thinking about or confronting the problem or its associated emotions.
+    * **Examples:** "It's not a big deal.", "I just want to forget about the problem.", "I don't want to think about that right now."
+
+* **maladaptive_behavior:**
+    * **Definition:** The client's coping method manifests as destructive behavior. **This tag applies to a *current* coping action (e.g., "I relapsed yesterday"), not a reflection on a *past* action.**
+    * **Examples:** "I started binge-drinking again yesterday.", "I was so angry I punched a wall.", "I used drugs.", "I broke things."
+
+---
+
+* Edge Case Rules
+
+1.  **Rule 1: `problem_focused` vs. `emotion_processing` (Topic vs. Strategy)**
+    * **Do NOT confuse the *Topic* of conversation with the *Strategy*.**
+    * Talking *about* emotions, love, feelings, or trauma is **NOT** automatically `emotion_processing`.
+    * **Check the client's *action*:** If the client discusses an emotional topic (like trauma or a relationship) but their *action* is analytical or planning-based (e.g., "I have a therapist for these feelings," "I understand she doesn't like me," "we're just going to wait"), the strategy is **`problem_focused`**.
+
+2.  **Rule 2: `problem_focused` vs. `emotion_processing` (Structure vs. Content)**
+    * **Look at the *substance and dominant content* of the client's speech, not just the superficial Q&A structure.**
+    * If a client is asked a `problem_focused` question (e.g., "Do you go to meetings?") but responds with a **long, detailed, emotional narrative about their past trauma** (e.g., meth use, homelessness, car rolling, sick dog), their *dominant action* is unburdening themselves. This is **`emotion_processing`**.
+
+3.  **Rule 3: `maladaptive_behavior` vs. `emotion_processing` (Present Action vs. Past Report)**
+    * `maladaptive_behavior` is for a *current or very recent* coping action.
+    * If a client says, **"I ended up doing a lot of self destruction" (past tense)**, they are *currently reflecting* on a past action. This act of reflection is **`emotion_processing`**, not `maladaptive_behavior`.
+
+4.  **Rule 4: `avoidant` vs. `maladaptive_behavior`** 
+    * **avoidant** is a passive defense (e.g., "not thinking about it").
+    * **maladaptive_behavior** manifests as an active or destructive action.
+    
+---
+
+**[Client's Main Problem]**
+{op_summary}
+
+**[Dialogue]**
+{dialogue}
+
+**[Output Format]**
+Output only one label (no explanation):
+[problem_focused / emotion_processing / avoidant / maladadaptive_behavior]

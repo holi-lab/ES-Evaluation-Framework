@@ -1,0 +1,62 @@
+You are an expert evaluator. You will be provided with the client's main problem for context, followed by a multi-turn dialogue between a counselor and that client.
+
+Your task is to evaluate the **client's overall engagement level** shown throughout the entire dialogue. This feature assesses how **active, serious, and honest** the client is in the conversation, based on your holistic impression. You will tag this as high, medium, or low.
+
+---
+
+* Instructions
+
+1.  Read the **[Client's Main Problem]** to understand the situation. This is context only — do not use it as evidence for your evaluation.
+2.  Read the entire **[Dialogue]** carefully.
+3.  Base your evaluation *only* on the **client's utterances** within the **[Dialogue]** (ignore the counselor's messages).
+4.  Determine which **single level** (high, medium, or low) best represents the client's overall mode of engagement, based on the definitions below.
+5.  Refer to the **[Edge Case Rules]** for clarification between levels.
+6.  Output *only* in the specified format.
+
+---
+
+* Engagement Level Definitions
+
+* **high: "Active Partner"**
+    * **Definition:** The client actively leads the conversation, asks questions, and participates deeply as an equal partner with the counselor. They answer questions actively, show a willingness to solve problems, and strive to explore their thoughts and feelings in a balanced way.
+    * **Judgment Basis:** (Cognitive) They reflect on the counselor's words. (Emotional) They express their feelings honestly. (Behavioral) They ask their own questions or show curiosity about the next steps.
+    * **Examples:** "I've never thought of it that way, but hearing you say that, I think I might have been sad, not angry." / "Thank you for understanding. So, what specifically should I do now?" / "Let me explain my situation more, because..."
+
+* **medium: "Inconsistent or Biased Participant"**
+    * **Definition:** The client participates, but their engagement is inconsistent or lopsided (biased toward one dimension).
+    * **Judgment Basis:** (1) **Emotionalist:** They explosively vent emotions but show no reflection or will to solve the problem. (2) **Factualist:** They answer questions dutifully but reveal no emotion or deeper thoughts. (3) **Inconsistent:** Their participation breaks down; e.g., they start strong but become avoidant/low when a specific topic arises.
+    * **Examples:** "I'm so angry! I'm annoyed! I hate it! (Repeats this without further reflection or questions)." / (Q: How did you feel?) "It was bad." (Q: What did you do?) "Nothing." / "Yes, that's right... but honestly, what do you know. That's not helpful."
+
+* **low: "Passive Bystander"**
+    * **Definition:** The client shows little to no effort or will to engage in the conversation. Responses are dry, dismissive, or minimal. The conversation feels disconnected or superficial. They do not answer questions actively or provide quality answers.
+    * **Judgment Basis:** They consistently use monosyllabic answers or refuse reflection itself (e.g., "Stop," "It's useless"). They show no emotion or a dismissive attitude.
+    * **Examples:** "IDK." / "Just because." / "Stop it." / "It won't work anyway." / "It's useless to try that."
+
+---
+
+* Edge Case Rules
+
+1.  **`high` vs. `medium` (Factualist / Superficial):**
+    * `medium` (Factualist) applies *only* to **'low-effort' and 'superficial'** responses (e.g., "It was bad", "Nothing").
+    * `high` includes **'deep thought'** even if emotions are not intense:
+        * **(a) Calm Reflection:** "I appreciate the kind words, things have been shaky..."
+        * **(b) Intellectual/Analytical Effort:** e.g., providing a long, structured list of anxiety coping mechanisms.
+        * **(c) Cognitive Connection (Aha! Moment):** "OOh that makes sense. I did drink a lot of water..."
+
+2.  **`high` vs. `medium` (Emotionalist / Venting):**
+    * `medium` (Emotionalist) applies *only* to emotional venting with **'zero reflection' or problem-solving will.**
+    * `high` *includes* the confession of painful emotions:
+        * **(a) Deep Emotional Vulnerability:** Honestly sharing feelings like "I have a lot of guilt" or "I have depression" is `high` engagement, not `medium`.
+        * **(b) Emotion with Context/Action:** This is clearly `high` if the client pairs the emotion with context (e.g., "My mother had dementia") or a problem-solving step (e.g., "I have a counseling appointment").
+
+---
+
+**[Client's Main Problem]**
+{op_summary}
+
+**[Dialogue]**
+{dialogue}
+
+**[Output Format]**
+Output only one label (no explanation):
+[high / medium / low]

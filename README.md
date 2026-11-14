@@ -19,17 +19,45 @@ The core model uses supervised fine-tuning as a backbone and a feature-condition
 - `src/training/`: SFT backbone training and dataset utility scripts.
 - `src/moe/`: ordinal seeker-feature vector construction, SFT merge, and MoE/MoLA training scripts.
 - `src/simulation/`: multi-turn dialogue generation scripts for GPT and SFT supporter settings.
+- `src/annotation/`: prompt-based seeker-feature annotation tools and reusable labeling prompts.
 
 ## Main Components
 
 - SFT seeker simulator training
 - MoE/MoLA training with ordinal feature-vector-conditioned routing
 - Dialogue generation between seeker simulators and supporter models
+- Prompt-based annotation of seeker profiles from dialogue data
 - Utility scripts for data checks and model preparation
 
 ## Configuration
 
 Experiment-specific paths and model identifiers are intentionally left blank in the scripts. Before running the code, set the relevant input data paths, checkpoint paths, output directories, and model IDs for your local environment.
+
+## Prompt-Based Seeker Feature Annotation
+
+`src/annotation/` provides prompt-based annotation for the seeker features used by the framework. It tags full dialogues for coping strategy, engagement, resistance, and utterance style; it additionally tags counselor-seeker pairs for self-disclosure and client reaction. Verbosity, dialogue length, and profanity are computed as rule-based features.
+
+Install the optional annotation dependencies and set an API key:
+
+```bash
+pip install -r requirements-annotation.txt
+export OPENAI_API_KEY=...
+```
+
+Input is JSONL with a `messages` field and an optional `op_summary`. By default, `user` messages are treated as counselor turns and `assistant` messages as seeker turns.
+
+```bash
+python src/annotation/tag_features.py \
+  --input data.jsonl \
+  --output data_tagged.jsonl \
+  --model gpt-4o-mini \
+  --tokenizer meta-llama/Meta-Llama-3-8B-Instruct \
+  --embed-in-system
+```
+
+The command preserves each record, adds normalized `seeker_features` and pair-level annotations, and—with `--embed-in-system`—writes the `<seeker_features>` block consumed by `src/moe/make_mola_data_ordinal.py`. The reusable templates are under `src/annotation/prompts/`.
+
+The utterance-style template intentionally uses the four labels supported by the current MoLA vectorizer: `plain`, `upset`, `verbose`, and `pleasing`.
 
 ## Citation
 

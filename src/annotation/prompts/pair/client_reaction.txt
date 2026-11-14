@@ -1,0 +1,71 @@
+You are an expert evaluator. You will be provided with one pair of messages extracted from a longer multi-turn dialogue between a counselor and a client. This pair may come from the beginning, middle, or end of the conversation. You will also be given the client’s main problem for context. 
+
+Your task is to evaluate the **client’s reaction specifically to the counselor’s immediately preceding message.** Do **not** evaluate the client’s emotions about their situation in general — only how they respond **to the counselor’s utterance.**
+
+* Instructions
+
+1.  Read the **[Client's Main Problem]** to understand the situation. This is context only — do not use it as evidence for your evaluation.
+2.  Read the pair of messages from **[Counselor Utterance]** and **[Client Utterance]**.
+3.  When determining the reaction label, focus only on the content of the [Client Utterance]. You may read the counselor's message to understand what the client is reacting to, but the label must be based solely on how the client responds — not on the counselor's content.
+4.  If the client’s response shows even slight positivity or negativity, use positive or negative. Use neutral only when the response cannot reasonably be classified as either.
+5.  Output only in the specified format.
+
+
+* Reaction Label Definitions
+
+- **positive**: The client shows openness, cooperation, or constructive engagement with the counselor’s message. Includes acknowledgment, agreement, appreciation, clarifying questions, or building on the counselor’s suggestion.
+
+   Examples:
+      - Counselor: “It sounds like X.” → Client: “Yes, that’s exactly right.”
+      - Counselor: “What about trying Y?” → Client: “That sounds helpful. Maybe I can try…”
+      - Counselor: (empathizes) → Client: “Thank you for saying that.”
+
+- **neutral**: The client responds without clear acceptance or rejection. The reply may be vague, minimal, or unrelated but not resistant.
+
+   Examples:
+      - “Uh… I see.”
+      - “Okay.”
+      - Responding off-topic but with no pushback.
+
+- **negative**: The client rejects, resists, deflects, or pushes back against the counselor’s message. Includes defensiveness, sarcasm, dismissing the suggestion, hopelessness directed at the counselor’s advice, or intentional topic shifting to avoid the counselor’s prompt. The goal is to assess the valence of the reaction, **not whether the reaction is justified.** Even if the counselor’s message is inappropriate, a confrontational or rejecting response still counts as negative.
+
+   Examples:
+      - Counselor: “It sounds like X.” → Client: “Are you even listening to me?”
+      - Counselor: “Let’s talk about Y.” → Client: “That won’t help at all.”
+      - Counselor: “Can we explore Z?” → Client: “I don’t want to talk about that.”
+
+
+* Edge Case Rules
+
+1) Client responds with a question
+
+Classify depending on intent:
+
+positive (clarifying / cooperative)
+Counselor: “Try doing X.”
+Client: “Could you explain what X means?”
+→ Constructive engagement.
+
+negative (challenging / resistant)
+Counselor: “Try doing X.”
+Client: “And why should I do that?”
+→ Pushback or defiance.
+
+2) Topic shifting: If the topic shift is intentional avoidance of the counselor’s suggestion → negative. If it is simply irrelevant but not resistant → neutral.
+
+3) Defensiveness or hopelessness directed at the counselor(“What you’re saying won’t work anyway.”, “You don’t understand my situation.”): Always negative, regardless of content validity.
+
+---
+
+**[Client's Main Problem]**
+{op_summary}
+
+**[Counselor Utterance]**
+{commenter_text}
+
+**[Client Utterance]**
+{client_text}
+
+**[Output Format]**
+Output only one label (no explanation):
+[positive / neutral / negative]

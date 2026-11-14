@@ -1,0 +1,85 @@
+You are an expert evaluator. You will be provided with one pair of messages extracted from a longer multi-turn dialogue between a counselor and a client. This pair may come from the beginning, middle, or end of the conversation. You will also be given the client’s main problem for context.
+
+Your task is to evaluate **how much personal information or emotional vulnerability the client reveals in their response** to the counselor’s immediately preceding message. This feature evaluates depth of self-disclosure, not positivity/negativity or appropriateness.
+
+* Instructions
+
+1. Read the **[Client's Main Problem]** to understand the situation. This is context only — do not use it as evidence for your evaluation.
+2. Read the pair of messages from **[Counselor Utterance]** and **[Client Utterance]**.
+3. When determining the self-disclosure level, focus only on the content of the **[Client Utterance]**. You may read the counselor's message to understand what the client is responding to, but the level must be based solely on the client's disclosure depth.
+4. Select one of the four self-disclosure levels below.
+5. Output only in the specified format.
+
+
+* Self-Disclosure Level Definitions
+
+- **Level 1 (orientation)**: The client shares only surface-level, socially normative information. No emotions, no personal meaning, no vulnerability.
+  
+  Examples:
+    - “Yes, that’s right.”
+    - “It’s cold today.”
+    - “My weekend was fine.”
+  (Counterexample: “I don’t feel good.” — this is Level 2 because it contains emotion.)
+
+- **Level 2 (exploratory_affective_exchange)**: The client shares personal opinions, preferences, light emotions, or factual personal events. No deep vulnerability.
+  
+  Minimum requirement for Level 2:
+    - Any emotion (“I’m upset.”)
+    - Any personal event (“I argued with my family.”)
+
+  Examples:
+    - “I’m not feeling great.”
+    - “I enjoy watching movies.”
+    - “I argued with my sister yesterday.”
+
+- **Level 3 (affective_exchange)**: The client reveals emotionally significant experiences or vulnerabilities. Goes beyond facts or simple emotions — includes meaning, fear, insecurity, shame, or hurt.
+
+  Examples:
+    - “I have old wounds from childhood.”
+    - “I’m scared no one really loves me.”
+    - “That situation made me feel pathetic.”
+
+  Level 2 vs 3:
+    - Level 2: “I argued with my friend.”
+    - Level 3: “I argued with my friend, and I was terrified they might abandon me.”
+
+- **Level 4 (stable_exchange)**: The client reveals deeply held core beliefs, identity-level conclusions, or existential concerns. These statements generalize beyond a single event.
+
+  Examples:
+    - “I don’t know why I’m alive.”
+    - “I can never trust anyone.”
+    - “I’m the kind of person who always gets abandoned.”
+
+  Level 3 vs 4:
+    - Level 3 = state experience (“I feel afraid of being abandoned.”)
+    - Level 4 = stable belief/identity (“I’m someone who always gets abandoned.”)
+
+  Short but deep statements (e.g., “I want to die.” “I can never trust people.”) are Level 4.
+
+* Edge Case Rules
+
+1) Level 2 vs 3
+- Level 2 = factual events or basic emotions (“I was angry.” “We fought yesterday.”)
+- Level 3 = reveals vulnerability or personal meaning behind those feelings (“I felt ignored and worthless.”)
+
+2) Level 3 vs 4
+- Level 3 = painful experience/state
+- Level 4 = generalized belief or identity (“I am…”, “People always…”, “Life is…”)
+
+3) Short but deep statements
+Depth > length. Short statements may still be Level 4 if they reveal identity-level or existential content.
+
+---
+
+**[Client's Main Problem]**
+{op_summary}
+
+**[Counselor Utterance]**
+{commenter_text}
+
+**[Client Utterance]**
+{client_text}
+
+**[Output Format]**
+Output only one label (no explanation):
+[1 / 2 / 3 / 4]

@@ -1,0 +1,61 @@
+You are an expert evaluator. You will be provided with the client's main problem for context, followed by a multi-turn dialogue between a counselor and that client.
+
+Your task is to evaluate the **client's dominant utterance style** used **throughout the dialogue**. Your focus should be on **'how'** the client speaks (e.g., tone, structure, language) rather than **'what'** they are saying (the content).
+
+---
+
+* Instructions
+
+1.  Read the **[Client's Main Problem]** to understand the situation. This is context only — do not use it as evidence for your evaluation.
+2.  Read the entire **[Dialogue]** carefully.
+3.  Base your evaluation *only* on the **client's utterances** within the **[Dialogue]** (ignore the counselor's messages).
+4.  Determine which **single utterance style** (from the definitions below) best represents the client's dominant mode of speaking.
+5.  Refer to the **[Edge Case Rules]** for clarification between labels.
+6.  Output *only* in the specified format.
+
+---
+
+* Utterance Style Label Definitions
+
+* **plain:**
+    * **Definition:** Direct, honest, and to the point. The client answers questions clearly without excessive emotion or avoidance.
+    * **Examples:** "Yes, I did.", "I feel bad.", "I am here because of stress at work."
+
+* **upset:**
+    * **Definition:** Expresses frustration, anger, or strong resistance. The style is challenging, dismissive of suggestions, critical, or argumentative.
+    * **Examples:** "That's not helpful!", "This is just awful."
+
+* **verbose:**
+    * **Definition:** Excessively expressive and detailed. The client speaks at great length, making it difficult for the counselor to guide the conversation.
+    * **Example:** (Q: How was your weekend?) → "When I woke up on Saturday morning, the coffee on the table was cold, which reminded me of..." (continues for 10+ lines).
+
+* **pleasing:**
+    * **Definition:** A **persistent pattern** of excessive agreement. This is distinct from simple agreement or gratitude and is accompanied by **one or both** of the following observable behaviors:
+        1.  **Problem Minimization:** The client consistently downplays their own problems or feelings (e.g., "It's not a big deal," "It's my fault for being too sensitive").
+        2.  **Blind/Excessive Agreement:** A pattern of uncritical, blind acceptance of nearly all of the counselor's interventions (e.g., "Yes, you're right," "Everything you say is correct").
+    * **Examples:** (After empathy) → "Thank you for saying that. But really, it's my fault. I probably overreacted." (Excessive agreement + problem minimization). / (Counselor says A) → "Yes, you're right." (Counselor says B) → "Yes, that's right too." (A pattern of blind agreement).
+
+---
+
+* Edge Case Rules
+
+1.  **Is "Thank you" or "That was helpful" at the end `pleasing`?**
+    * **No.** A simple thanks at the end is a natural closing. `pleasing` must be a *persistent pattern* throughout the dialogue.
+    * Only tag `pleasing` if, in *addition* to such phrases, the client also (1) persistently minimized their problem (e.g., "My problem is trivial, isn't it?"), (2) agreed 100% with *everything* uncritically (e.g., "You are right about everything"), or (3) had a clear pattern of agreeing even with things that contradicted their own statements. It is a sustained attitude, not a one-time polite remark.
+
+2.  **How to distinguish real agreement from `pleasing`?**
+    * By the presence of **problem minimization** and **excessive frequency**.
+    * (Plain Example): (Counselor's advice) → "Ah, that's a good point. Thank you." (Healthy, one-time acceptance).
+    * (Pleasing Example): (Counselor's advice) → "Yes, you're right. You are always right. I was the problem. It's not a big deal anyway..." (Excessive agreement + problem minimization).
+
+---
+
+**[Client's Main Problem]**
+{op_summary}
+
+**[Dialogue]**
+{dialogue}
+
+**[Output Format]**
+Output only one label (no explanation):
+[plain / upset / verbose / pleasing]
