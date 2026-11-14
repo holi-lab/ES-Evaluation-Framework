@@ -63,7 +63,7 @@ python src/annotation/tag_features.py ... \
   --turn-bins 5 8
 ```
 
-The command preserves each record, adds a complete nine-feature `seeker_features` profile and pair-level annotations, and—with `--embed-in-system`—writes the `<seeker_features>` block consumed by `src/moe/make_mola_data_ordinal.py`. Pair-level client reactions are aggregated into positive, neutral, and negative `seeker_reaction` proportions. LLM prompt templates are under `src/annotation/psychological/prompts/`; rule-based verbosity, turn-count, and profanity extraction is in `src/annotation/linguistic/`.
+The command preserves each record, adds a complete nine-feature `seeker_features` profile and pair-level annotations, and—with `--embed-in-system`—writes the `<seeker_features>` block consumed by `src/moe/make_mola_data_ordinal.py`. Pair-level client reactions are aggregated into positive, neutral, and negative `seeker_reaction` proportions. LLM prompt templates are under `src/annotation/psychological/`; rule-based verbosity, turn-count, and profanity extraction is in `src/annotation/linguistic/`.
 
 The utterance-style template intentionally uses the four labels supported by the current MoE feature vectorizer: `plain`, `upset`, `verbose`, and `pleasing`.
 

@@ -19,7 +19,7 @@ LABELS = {
 }
 
 def prompts(kind):
-    return {f.stem: f.read_text(encoding="utf-8") for f in (HERE / "psychological" / "prompts" / kind).glob("*.txt")}
+    return {f.stem: f.read_text(encoding="utf-8") for f in (HERE / "psychological" / kind).glob("*.txt")}
 
 def parse_label(answer, allowed):
     for value in allowed:
