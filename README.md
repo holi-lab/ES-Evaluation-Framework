@@ -20,6 +20,7 @@ The core model uses supervised fine-tuning as a backbone and a feature-condition
 - `src/moe/`: ordinal seeker-feature vector construction, SFT merge, and MoE training scripts.
 - `src/simulation/`: multi-turn dialogue generation scripts for GPT and SFT supporter settings.
 - `src/annotation/`: psychological feature prompts and linguistic rule-based feature extraction tools.
+- `splits/`: Reddit post IDs for the train/validation/test splits.
 
 ## Main Components
 
@@ -32,6 +33,13 @@ The core model uses supervised fine-tuning as a backbone and a feature-condition
 ## Configuration
 
 Experiment-specific paths and model identifiers are intentionally left blank in the scripts. Before running the code, set the relevant input data paths, checkpoint paths, output directories, and model IDs for your local environment.
+
+## Data
+
+Due to Reddit's data policies, we do not release the original dialogues,
+annotated seeker profiles, or trained checkpoints. We release only the Reddit
+post IDs for the train/validation/test splits in the [splits/](splits/)
+directory; see its README for terms of use.
 
 ## Prompt-Based Seeker Feature Annotation
 
